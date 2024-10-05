@@ -1,5 +1,6 @@
 import express from 'express'
 
+
 // definindo como rota
 const routes = express.Router()
 

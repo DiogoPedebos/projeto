@@ -20,5 +20,4 @@ buscaDadosApi()
 // });
 
 
-module.exports = routes
 
