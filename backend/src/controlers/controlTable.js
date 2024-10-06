@@ -5,19 +5,21 @@ const prisma = new PrismaClient()
 
 //formata os dados tipo data 
 function formatarDataISO8601UTC(dataString) {
-    const data = new Date(dataString);
-    return data.toISOString();
+    const data = new Date(dataString)
+    return data.toISOString()
 }
 
+
+// TB METADADOS ===================================
 // Função para incluir dados na tb metadados
 export async function InsertMetadados(vUrl) {
     try {
-        const response = await fetch(vUrl); // realiza consulta com url especifica
+        const response = await fetch(vUrl) // realiza consulta com url especifica
         if (!response.ok) {
-            throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
+            throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`)
         }
         // caso consulta seja bem sucedida
-        const dados = await response.json(); // armazena json dos valores gerados pela api
+        const dados = await response.json() // armazena json dos valores gerados pela api
 
         // utiliza o prisma para implementar dados da consulta
         await prisma.metadados.create({
@@ -32,14 +34,21 @@ export async function InsertMetadados(vUrl) {
                 offsetHorarioUtc: dados.metadata.utc_timeoffset,
                 tempoGeracaoMs: dados.metadata.generation_time_ms
             }
-        });
+        })
         // verificação do processo
-        console.log('Dados salvos com sucesso!');
+        console.log('Dados salvos com sucesso!')
     } catch (error) {
-        console.error('Erro ao buscar ou salvar os dados:', error);
+        console.error('Erro ao buscar ou salvar os dados:', error)
     }
 }
 
+// Função para listar todos dados da tb metadados
+export async function ListMetadados(){
+    const metadados = await prisma.metadados.findMany()
+    return metadados
+}
+
+// TB UNIDADES ===================================
 // Função para incluir dados na tb Unidades
 export async function InsertUnidades(vUrl) {
     try {
@@ -71,6 +80,13 @@ export async function InsertUnidades(vUrl) {
     }
 }
 
+// Função para listar todos dados da tb Unidades
+export async function ListUnidades(){
+    const unidades = await prisma.unidades.findMany()
+    return unidades
+}
+
+// TB DADOSATUAIS ===================================
 // Função para incluir dados na tb DadosAtuais
 export async function InsertDadosAtuais(vUrl) {
     try {
@@ -102,6 +118,14 @@ export async function InsertDadosAtuais(vUrl) {
     }
 }
 
+// Função para listar todos dados da tb DadosAtuais
+export async function ListDadosAtuais(){
+    const dadosAtuais = await prisma.dadosAtuais.findMany()
+    return dadosAtuais
+}
+
+
+// TB DADOSDIARIOS ===================================
 export async function InsertDadosDiarios(vUrl) {
     try {
       const response = await fetch(vUrl); // realiza consulta com url especifica
@@ -151,3 +175,9 @@ export async function InsertDadosDiarios(vUrl) {
       console.error('Erro ao buscar ou salvar os dados:', error);
     }
   }
+
+// Função para listar todos dados da tb DadosAtuais
+export async function ListDadosDiarios(){
+    const dadosDiarios = await prisma.dadosDiarios.findMany()
+    return dadosDiarios
+}

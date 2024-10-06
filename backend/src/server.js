@@ -1,7 +1,7 @@
 // importando express e rotas
 import express from 'express'
 import routes from './routes/index.js'
-import  { InsertMetadados } from './controler/inserTables.js' // importando controler
+
 
 // instanciando express em app
 const app = express()
