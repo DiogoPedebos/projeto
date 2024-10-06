@@ -6,7 +6,7 @@ const routes = express.Router()
 
 //configuração da rota
 routes.get('/teste', (req,res) =>{
-    res.send('Consulta bem sucedida');
+    res.send('Consulta bem sucedida')
 })
 
 // exportando rota
