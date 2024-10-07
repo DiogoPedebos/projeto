@@ -7,7 +7,8 @@ const routes = express.Router()
 //configuração da rota
 routes.get('/listar', async (req,res) =>{
     const dado = await ListDadosDiarios()
-    res.status(200).json(dado)
+    res.send(dado);
+    res.status(200)
 })
 
 

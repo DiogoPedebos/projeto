@@ -1,64 +1,55 @@
+import {useState, useRef, useEffect } from 'react'
 import './style.css'
+import api from '../../services/api.js'
 // import Trash from '../../assets/img.ex' importação de imagem de exemplo
 
 function Home() {
 
-  const dados_day = [{
-    "id": 1,
-        "tempo": "2024-10-06T00:00:00.000Z",
-        "temperaturaInstantanea": 18.22,
-        "precipitacao": 0,
-        "previsibilidade": 76,
-        "temperaturaMaxima": 30.38,
-        "pressaoMediaNivelDoMar": 1013,
-        "velocidadeDoVentoMedia": 1.57,
-        "horasDePrecipitacao": 0,
-        "pressaoMinimaNivelDoMar": 1011,
-        "pictocode": 2,
-        "fracaoDeNeve": 0,
-        "horasComUmidadeMaior90": 0,
-        "precipitacaoConvectiva": 0,
-        "umidadeRelativaMaxima": 75,
-        "temperaturaMinima": 16.66,
-        "direcaoDoVento": 90,
-        "temperaturaSensacaoMaxima": 31.84,
-        "umidadeRelativaMinima": 40,
-        "temperaturaSensacaoMedia": 24.13,
-        "velocidadeDoVentoMinima": 0.76,
-        "temperaturaSensacaoMinima": 16.26,
-        "probabilidadeDePrecipitacao": 9,
-        "indiceUv": 7,
-        "manchasDeChuva": "0000000000000000000000000000000000000000000000000",
-        "temperaturaMedia": 23.32,
-        "pressaoMaximaNivelDoMar": 1016,
-        "umidadeRelativaMedia": 60,
-        "classeDePrevisibilidade": 4,
-        "velocidadeDoVentoMaxima": 2.39
-  }]
+  let dados_day = []
+  const [count, setCount] = useState(0)
+  const inputCidade = useRef()
+  const inputLatitude = useRef()
+  const inputLongitude = useRef()
+
+  async function getDados_day(){
+    const resposta = await api.get('/listar')
+    dados_day = await resposta.json()
+  }
+
+  function ProcuraCidade(){
+    console.log(inputCidade.current.value)
+  }
+
+  function ProcuraCoordenada(){
+
+    console.log(inputLatitude.current.value)
+    console.log(inputLatitude.current.value)
+  }
+  
+  useEffect(() => {
+    getDados_day()
+  }, []);
 
   return (
 
-    <div>
+    <div className="container">
       <div>
         <div>
-          <form>
+            <h1>Seu guia para o tempo</h1>
             {/* <button type='button'><img src={Trash}/></button> */}
-            <button type='button'>Pesquisar1</button>
-            <input name='consCidade' type="text" />
-          </form>
+            <button onClick={ProcuraCidade}>Pesquisar1</button>
+            <input ref={inputCidade} type="text" placeholder="Nome da Cidade"/>
         </div>
         <div>
-          <form>
-            <button type='button'>Pesquisar2</button>
-            <input name='lat' type="number" />
-            <input name='lon' type="number" />
-          </form>
+            <button onClick={ProcuraCoordenada} type='button'>Pesquisar2</button>
+            <input ref={inputLatitude} name='lat' type="number"  placeholder="Latitude"/>
+            <input ref={inputLongitude} name='lon' type="number"  placeholder="Longitude"/>
         </div>
       </div>
 
       {dados_day.map(dado_day => (
 
-        <div kay={dado_day.id}>
+        <div className="containerCentral" key={dado_day.id}>
           <h1>vDiaSemana {dado_day.tempo}</h1>
           <p>Temperatura Mínima: {dado_day.temperaturaMinima}</p>
           <p>Temperatura Máxima: {dado_day.temperaturaMaxima}</p>
