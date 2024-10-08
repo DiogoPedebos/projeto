@@ -5,8 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -14,74 +13,64 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Metadados {
-  id                      Int      @id @default(autoincrement())
-  modelrunUpdatetimeUtc  DateTime
-  nome                    String?
-  altura                  Int?
-  abreviacaoFusoHorario   String?
-  latitude                Float?
-  modelrunUtc            DateTime
-  longitude               Float?
-  offsetHorarioUtc        Float?
-  tempoGeracaoMs         Float?
+
+model Metadata {
+  id Int @id @default(autoincrement())
+  modelrun_updatetime_utc DateTime?
+  name String?
+  height Int?
+  timezone_abbrevation String?
+  latitude Float?
+  modelrun_utc DateTime?
+  longitude Float?
+  utc_timeoffset Float?
+  generation_time_ms Float?
+  unitsId Int?
+  dataDayId Int?
 }
 
-model Unidades {
-  id                           Int      @id @default(autoincrement())
-  previsibilidade              String?
-  precipitacao                String?
-  velocidadeDoVento           String?
-  probabilidadeDePrecipitacao String?
-  umidadeRelativa             String?
-  tempo                       String?
-  temperatura                  String?
-  pressao                     String?
-  direcaoDoVento              String?
+model Units {
+  id Int @id @default(autoincrement())
+  predictability String?
+  precipitation String?
+  windspeed String?
+  precipitation_probability String?
+  relativehumidity String?
+  time String?
+  temperature String?
+  pressure String?
+  winddirection String?
 }
 
-model DadosAtuais {
-  id                     Int      @id @default(autoincrement())
-  tempo                  DateTime
-  dadosObservados        Boolean?
-  metarid               String?
-  ehDia                 Boolean?
-  velocidadeDoVento     Float?
-  anguloDeZenite        Float?
-  pictocodeDetalhado     Int?
-  pictocode             Int?
-  temperatura           Float?
-}
-
-model DadosDiarios {
-  id                               Int      @id @default(autoincrement())
-  tempo                            DateTime
-  temperaturaInstantanea           Float?
-  precipitacao                     Float?
-  previsibilidade                  Int?
-  temperaturaMaxima                Float?
-  pressaoMediaNivelDoMar          Float?
-  velocidadeDoVentoMedia           Float?
-  horasDePrecipitacao              Float?
-  pressaoMinimaNivelDoMar         Float?
-  pictocode                        Int?
-  fracaoDeNeve                    Float?
-  horasComUmidadeMaior90          Float?
-  precipitacaoConvectiva          Float?
-  umidadeRelativaMaxima           Int?
-  temperaturaMinima                Float?
-  direcaoDoVento                  Int?
-  temperaturaSensacaoMaxima       Float?
-  umidadeRelativaMinima           Int?
-  temperaturaSensacaoMedia         Float?
-  velocidadeDoVentoMinima         Float?
-  temperaturaSensacaoMinima       Float?
-  probabilidadeDePrecipitacao     Float?
-  indiceUv                         Int?
-  manchasDeChuva                  String?
-  temperaturaMedia                 Float?
-  pressaoMaximaNivelDoMar        Float?
-  umidadeRelativaMedia            Int?
-  classeDePrevisibilidade          Float?
-  velocidadeDoVentoMaxima         Float?
+model DataDay {
+  id Int @id @default(autoincrement())
+  time String[]
+  temperature_instant Float[]
+  precipitation Float[]
+  predictability Int[]
+  temperature_max Float[]
+  sealevelpressure_mean Int[]
+  windspeed_mean Float[]
+  precipitation_hours Float[]
+  sealevelpressure_min Int[]
+  pictocode Int[]
+  snowfraction Float[]
+  humiditygreater90_hours Float[]
+  convective_precipitation Float[]
+  relativehumidity_max Int[]
+  temperature_min Float[]
+  winddirection Int[]
+  felttemperature_max Float[]
+  relativehumidity_min Int[]
+  felttemperature_mean Float[]
+  windspeed_min Float[]
+  felttemperature_min Float[]
+  precipitation_probability Int[]
+  uvindex Int[]
+  rainspot String[]
+  temperature_mean Float[]
+  sealevelpressure_max Int[]
+  relativehumidity_mean Int[]
+  predictability_class Float[]
+  windspeed_max Float[]
 }

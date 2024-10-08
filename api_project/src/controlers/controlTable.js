@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-
+import { CreateMeteoBlueUrlConsultDados } from './montURL.js'
 // definindo como rota e instanciando Prisma
 const prisma = new PrismaClient()
 
@@ -10,11 +10,21 @@ function formatarDataISO8601UTC(dataString) {
 }
 
 
+
+
+
+
+
 // TB METADADOS ===================================
 // Função para incluir dados na tb metadados
-export async function InsertMetadados(vUrl) {
+export async function insertMetadata() {
+    var vUrl
     try {
-        const response = await fetch(vUrl) // realiza consulta com url especifica
+        vUrl = CreateMeteoBlueUrlConsultDados(-33.4569, -70.6483)// testando
+        const response = await fetch(vUrl) 
+        
+        
+        // realiza consulta com url especifica
         if (!response.ok) {
             throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`)
         }
@@ -22,17 +32,19 @@ export async function InsertMetadados(vUrl) {
         const dados = await response.json() // armazena json dos valores gerados pela api
 
         // utiliza o prisma para implementar dados da consulta
-        await prisma.metadados.create({
+        await prisma.metadata.create({
             data: {
-                modelrunUpdatetimeUtc: formatarDataISO8601UTC(dados.metadata.modelrun_updatetime_utc),
-                nome: dados.metadata.name,
-                altura: dados.metadata.height,
-                abreviacaoFusoHorario: dados.metadata.timezone_abbrevation,
-                latitude: dados.metadata.latitude,
-                modelrunUtc: formatarDataISO8601UTC(dados.metadata.modelrun_utc),
-                longitude: dados.metadata.longitude,
-                offsetHorarioUtc: dados.metadata.utc_timeoffset,
-                tempoGeracaoMs: dados.metadata.generation_time_ms
+              modelrun_updatetime_utc: dados.metadata.modelrun_updatetime_utc ? new Date(dados.metadata.modelrun_updatetime_utc) : null,
+              name: dados.metadata.name,
+              height: dados.metadata.height,
+              timezone_abbrevation: dados.metadata.timezone_abbrevation,
+              latitude: dados.metadata.latitude,
+              modelrun_utc: dados.metadata.modelrun_utc ? new Date(dados.metadata.modelrun_utc) : null,
+              longitude: dados.metadata.longitude,
+              utc_timeoffset: dados.metadata.utc_timeoffset,
+              generation_time_ms: dados.metadata.generation_time_ms,
+              unitsId: dados.metadata.unitsId, 
+              dataDayId: dados.metadata.dataDayId
             }
         })
         // verificação do processo
@@ -41,6 +53,15 @@ export async function InsertMetadados(vUrl) {
         console.error('Erro ao buscar ou salvar os dados:', error)
     }
 }
+
+
+
+
+
+
+
+
+
 
 // Função para listar todos dados da tb metadados
 export async function ListMetadados(){
@@ -181,3 +202,30 @@ export async function ListDadosDiarios(){
     const dadosDiarios = await prisma.dadosDiarios.findMany()
     return dadosDiarios
 }
+
+// Função para listar todos dados da tb DadosAtuais
+export async function ListDadoDiario(){
+    const dadoDiario = await prisma.dadosDiarios.findFirst({
+        orderBy: {
+            tempo: 'desc' 
+        }
+    })
+
+    return dadoDiario // Correção: return dentro da função
+}
+
+
+
+// export async function ListDadoDiario(key){
+//     const dadoDiario = await prisma.dadosDiarios.findFirst({
+//         where: {
+//             nome: `${key}` 
+//         },
+//         orderBy: {
+//             tempo: 'desc' 
+//         }
+//     })
+
+//     return dadoDiario // Correção: return dentro da função
+// }
+

@@ -1,68 +1,63 @@
-import {useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect, useRef, } from 'react'
 import './style.css'
-// import api from '../../services/api.js'
-// import Trash from '../../assets/img.ex' importação de imagem de exemplo
+import { ConfirmaConexao } from '../../controlers/controlHome.js'
+import { CreateMeteoBlueUrlConsultLocal } from '../../controlers/montURL.js'
+
+
+
 
 function Home() {
 
-  let dados_day = []
-  const [count, setCount] = useState(0)
-  const inputCidade = useRef()
-  const inputLatitude = useRef()
-  const inputLongitude = useRef()
+  const inputRefPesquisa = useRef()
+  const inputRefDados = useRef()
 
-  // async function getDados_day(){
-  //   const resposta = await api.get('/listar')
-  //   dados_day = await resposta.json()
-  // }
 
-  function ProcuraCidade(){
-    console.log(inputCidade.current.value)
+  async function searchCity() {
+    console.log(inputRefPesquisa.current.value)
+    const city = inputRefPesquisa.current.value
+    let infoConsulta = CreateMeteoBlueUrlConsultLocal(city)
+
+    console.log(infoConsulta)
+    // return infoConsulta
   }
+  // let dados_day = []
 
-  function ProcuraCoordenada(){
+  useEffect(() => {
+    ConfirmaConexao()
+  }, [])
 
-    console.log(inputLatitude.current.value)
-    console.log(inputLatitude.current.value)
-  }
-  
 
   return (
 
     <div className="container">
       <div>
         <div>
-            <h1>Seu guia para o tempo</h1>
-            {/* <button type='button'><img src={Trash}/></button> */}
-            <button onClick={ProcuraCidade}>Pesquisar1</button>
-            <input ref={inputCidade} type="text" placeholder="Nome da Cidade"/>
+          <h1>Seu guia para o tempo</h1>
+          {/* <button type='button'><img src={Trash}/></button> */}
+          <button onClick={searchCity} >Pesquisar1</button>
+          <input ref={inputRefPesquisa} type="text" placeholder="Nome da Cidade" />
         </div>
         <div>
-            <button onClick={ProcuraCoordenada} type='button'>Pesquisar2</button>
-            <input ref={inputLatitude} name='lat' type="number"  placeholder="Latitude"/>
-            <input ref={inputLongitude} name='lon' type="number"  placeholder="Longitude"/>
+          <button type='button'>Pesquisar2</button>
+          <input name='lat' type="number" placeholder="Latitude" />
+          <input name='lon' type="number" placeholder="Longitude" />
         </div>
       </div>
 
-      {dados_day.map(dado_day => (
 
-        <div className="containerCentral" key={dado_day.id}>
-          <h1>vDiaSemana {dado_day.tempo}</h1>
-          <p>Temperatura Mínima: {dado_day.temperaturaMinima}</p>
-          <p>Temperatura Máxima: {dado_day.temperaturaMaxima}</p>
-          <p>Atual Clima: {dado_day.pictocode}</p>
-          <p>Velocidade do Vento: {dado_day.velocidadeDoVentoMedia}</p>
-          <p>Direção do Vento: {dado_day.direcaoDoVento}</p>
-          <p>Probabilidade de precipitação: {dado_day.probabilidadeDePrecipitacao} </p>
-        </div>
+      <div className="containerCentral" >
+        <h1>vDiaSemana </h1>
+        <p>Temperatura Mínima: </p>
+        <p>Temperatura Máxima: </p>
+        <p>Atual Clima: </p>
+        <p>Velocidade do Vento: </p>
+        <p>Direção do Vento: </p>
+        <p>Probabilidade de precipitação: </p>
+      </div>
 
-      ))}
 
     </div>
 
-
-
-      
   )
 }
 
