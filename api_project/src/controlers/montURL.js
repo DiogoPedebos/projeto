@@ -1,7 +1,7 @@
 import { InsertDadosAtuais } from './controlTable.js'
 
 //-33.4569, -70.6483
-export async function CreateMeteoBlueUrlConsultLocal(query, lat, lon) {
+export async function CreateMeteoblueUrlConsultLocal(query, lat, lon) {
   // Inicializa a string de consulta.
   let queryString = "";
 
@@ -20,7 +20,7 @@ export async function CreateMeteoBlueUrlConsultLocal(query, lat, lon) {
 
   // Constrói a URL.
   let url = `https://www.meteoblue.com/en/server/search/query3?${queryString}&apikey=n1NVZemHJWC0sK7U&itemsPerPage=1`;
-
+  console.log(url)
   // Retorna a URL formatada.
   try {
     const response = await fetch(url)
@@ -33,14 +33,13 @@ export async function CreateMeteoBlueUrlConsultLocal(query, lat, lon) {
     const dados = await response.json() // armazena json dos valores gerados pela api
 
     let data = {
-      name: dados.results.name,
-      latitude: dados.results.lat,
-      longitude: dados.results.lon,
-      country: dados.results.country,
-      estadoAdmin1: dados.results.admin1
+      name: dados.results[0].name,
+      latitude: dados.results[0].lat,
+      longitude: dados.results[0].lon,
+      country: dados.results[0].country,
+      estadoAdmin1: dados.results[0].admin1
     }
-
-    return data;
+    return data
 
   } catch (error) {
     console.error('Erro ao buscar ou salvar os dados:', error)

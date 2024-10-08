@@ -1,31 +1,25 @@
-import React, { useState, useEffect, useRef, } from 'react'
-import './style.css'
-import { ConfirmaConexao } from '../../controlers/controlHome.js'
-import { CreateMeteoBlueUrlConsultLocal } from '../../controlers/montURL.js'
-
-
-
+import React, { useState, useEffect, useRef } from 'react';
+import './style.css';
+import { ConfirmaConexao } from '../../controlers/controlHome.js';
+import { CreateMeteoblueUrlConsultLocal } from '../../controlers/montURL.js';
 
 function Home() {
-
-  const inputRefPesquisa = useRef()
-  const inputRefDados = useRef()
-
-
-  async function searchCity() {
-    console.log(inputRefPesquisa.current.value)
-    const city = inputRefPesquisa.current.value
-    let infoConsulta = CreateMeteoBlueUrlConsultLocal(city)
-
-    console.log(infoConsulta)
-    // return infoConsulta
-  }
-  // let dados_day = []
+  const inputRefPesquisa = useRef();
+  const [infoConsulta, setInfoConsulta] = useState(null);
 
   useEffect(() => {
-    ConfirmaConexao()
-  }, [])
+    async function obterInformacoes() {
+      let result = await CreateMeteoblueUrlConsultLocal('maravilha');
+      setInfoConsulta(result);
+    }
+    obterInformacoes();
+  }, []);
 
+  async function searchCity() {
+    const city = inputRefPesquisa.current.value;
+    let result = await CreateMeteoblueUrlConsultLocal(city);
+    setInfoConsulta(result);
+  }
 
   return (
 
@@ -44,17 +38,17 @@ function Home() {
         </div>
       </div>
 
-
-      <div className="containerCentral" >
-        <h1>vDiaSemana </h1>
-        <p>Temperatura Mínima: </p>
-        <p>Temperatura Máxima: </p>
-        <p>Atual Clima: </p>
-        <p>Velocidade do Vento: </p>
-        <p>Direção do Vento: </p>
-        <p>Probabilidade de precipitação: </p>
-      </div>
-
+      {infoConsulta && ( // Renderiza o div se infoConsulta não for null
+        <div className="containerCentral">
+          <h1>Cidade: {infoConsulta.name},</h1><p>{infoConsulta.estadoAdmin1},</p><p>{infoConsulta.country},</p>
+          <p>Temperatura Mínima: </p>
+          <p>Temperatura Máxima: </p>
+          <p>Atual Clima: </p>
+          <p>Velocidade do Vento: </p>
+          <p>Direção do Vento: </p>
+          <p>Probabilidade de precipitação: </p>
+        </div>
+      )}
 
     </div>
 
@@ -62,3 +56,7 @@ function Home() {
 }
 
 export default Home
+
+
+
+

@@ -1,13 +1,14 @@
 import express from 'express'
 import  { insertMetadata ,ListMetadados, ListUnidades, ListDadosAtuais, ListDadosDiarios, ListDadoDiario } from '../controlers/controlTable.js' // importando controler
-// import  { CreateMeteoBlueUrl } from '../controlers/montURL.js'
+import  { CreateMeteoblueUrlConsultLocal } from '../controlers/montURL.js'
 
 // definindo como rota
 const routes = express.Router()
 
 //configuração da rota
 routes.get('/cadastra', async (req,res) =>{
-    insertMetadata()
+    let resposta = await CreateMeteoblueUrlConsultLocal('santiago')
+    console.log(resposta)
     res.status(200)
 })
 
