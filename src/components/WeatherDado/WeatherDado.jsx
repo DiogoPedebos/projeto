@@ -1,16 +1,14 @@
-import './WeatherDado.css'
-import { format } from 'date-fns'
-import ptBR from 'date-fns/locale/pt-BR'
-
-
-
+import './WeatherDado.css';
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
 function WeatherDado(props) {
 
-
+    // Função para obter a descrição e a imagem correspondente ao código meteorológico
     function obterValorPtPT(code) {
         var periodo = verificarPeriodo(props.weatherSpecific.metadata.modelrun_updatetime_utc);
-        // Crie um objeto que mapeia os códigos aos valores em pt_PT e os caminhos das imagens
+        
+        // Objeto que mapeia os códigos meteorológicos às descrições e imagens correspondentes
         const codigos = {
             1: {
                 descricao: "Limpo, sem nuvens",
@@ -85,11 +83,10 @@ function WeatherDado(props) {
         return codigos[code];
     }
 
+    // Função para obter a direção cardeal com base no ângulo em graus
     function obterDirecaoCardeal(graus) {
-        // Normaliza os graus para o intervalo de 0 a 360
         graus = (graus % 360 + 360) % 360;
 
-        // Define os intervalos de graus para cada direção cardeal
         const direcoes = {
             "N": [348.75, 11.25],
             "NNE": [11.25, 33.75],
@@ -109,7 +106,6 @@ function WeatherDado(props) {
             "NNW": [326.25, 348.75],
         };
 
-        // Encontra a direção cardeal correspondente aos graus fornecidos
         for (let direcao in direcoes) {
             const [inicio, fim] = direcoes[direcao];
             if (graus >= inicio && graus < fim || (direcao === "N" && (graus >= inicio || graus < fim))) {
@@ -117,23 +113,15 @@ function WeatherDado(props) {
             }
         }
 
-        // Caso não encontre nenhuma direção (o que não deve acontecer), retorna undefined
-        return undefined;
+        return undefined; 
     }
 
-    const result = obterValorPtPT(props.weatherSpecific.data_day.pictocode)
-
+    // Função para verificar o período do dia (dia ou noite)
     function verificarPeriodo(dataHora) {
-        // Extrai a hora da string no formato "YYYY-MM-DD hh:mm"
         const hora = dataHora.slice(11, 16);
-
-        // Divide a string da hora em horas e minutos
         const [horas, minutos] = hora.split(':').map(Number);
-
-        // Converte a hora para minutos desde o início do dia
         const totalMinutos = horas * 60 + minutos;
 
-        // Verifica se a hora está entre 6:00 e 18:00 (inclusive)
         if (totalMinutos >= 6 * 60 && totalMinutos <= 18 * 60) {
             return "dia";
         } else {
@@ -141,37 +129,37 @@ function WeatherDado(props) {
         }
     }
 
+    // Obtém a descrição e a imagem do tempo atual
+    const result = obterValorPtPT(props.weatherSpecific.data_day.pictocode);
 
     return (
         <div className='weather-container'>
-
             <h2>{props.weather.name}</h2>
 
             <div className='weather-info'>
-                <img src={result.imagem} />
+                <img src={result.imagem} alt={result.descricao} /> 
                 <p className='temperature'>{Math.round(props.weatherSpecific.data_day.temperature_instant)}ºC</p>
             </div>
 
             <p className='description'>{result.descricao}</p>
-            <div className=''>
+            
+            <div>
                 <p>Direção do Vento: {obterDirecaoCardeal(props.weatherSpecific.data_day.winddirection)}º</p>
                 <p>Velocidade do Vento: {Math.round(props.weatherSpecific.data_day.windspeed_mean)} km/h</p>
                 <p>Probabilidade de Chuva: {Math.round(props.weatherSpecific.data_day.precipitation_probability)}%</p>
             </div>
+            
             <div className='details'>
                 <p>Temp Max: {Math.round(props.weatherSpecific.data_day.temperature_max)}</p>
                 <p>Temp Min: {Math.round(props.weatherSpecific.data_day.temperature_min)}</p>
             </div>
+            
             <div>
-                <p className='day'>{format(new Date(props.weatherSpecific.metadata.modelrun_updatetime_utc), 'EEEE', { locale: ptBR })}</p>
+                <p className='day'>{format(new Date(props.weatherSpecific.metadata.modelrun_updatetime_utc), 'EEEE', { locale: ptBR })}</p> 
             </div>
 
         </div>
-    )
+    );
 }
 
-export default WeatherDado
-
-
-
-
+export default WeatherDado;

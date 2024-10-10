@@ -1,14 +1,17 @@
 import express from 'express';
 import { insertMetadata } from './controler/databaseDados/databaseDados.js';
 import cors from 'cors';
-import pkg from '@prisma/client';
-const { prisma } = pkg;
+import { PrismaClient } from '@prisma/client';
 
+// Inicializa o Prisma Client
+const prisma = new PrismaClient();
+
+// Inicializa o servidor Express
 const app = express();
-app.use(express.json());
-app.use(cors());
+app.use(express.json()); // Permite o parsing de JSON no corpo das requisições
+app.use(cors()); // Habilita CORS
 
-//adiciona na base ======================================
+// Rota para adicionar metadados
 app.post('/metadata', async (req, res) => {
     try {
         await insertMetadata(req.body);
@@ -19,27 +22,40 @@ app.post('/metadata', async (req, res) => {
     }
 });
 
-//consulta todos os dados  ======================================
-app.get('/metadata', async (req, res) => {
-    const metadatas = await prisma.findMany();
-    console.log(metadatas)
-    res.status(200).json(metadatas);
-});
+// Função para buscar todos os metadados
+async function getAllMetadata() {
+    try {
+        const metadata = await prisma.metadata.findMany();
+        return metadata;
+    } catch (error) {
+        console.error('Erro ao buscar metadados do banco de dados:', error);
+        throw error; 
+    }
+}
 
-//consulta por chave latitude e longitude ======================================
+// Rota para buscar todos os metadados
 app.get('/metadata', async (req, res) => {
     try {
-      const metadatas = await prisma.metadata.findMany();
-      res.status(200).json(metadatas);
+        const metadata = await getAllMetadata(); 
+        res.status(200).json(metadata);
     } catch (error) {
-      console.error('Erro ao buscar metadados:', error);
-      res.status(500).json({ message: 'Erro ao buscar metadados.' });
+        console.error('Erro ao buscar metadados:', error);
+        res.status(500).json({ message: 'Erro ao buscar metadados.' });
     }
-  });
+});
 
+// Rota para buscar metadados por latitude e longitude (não implementada)
+app.get('/metadata', async (req, res) => { 
+    try {
+        const metadatas = await prisma.metadata.findMany(); // Implementar lógica de busca por latitude e longitude
+        res.status(200).json(metadatas);
+    } catch (error) {
+        console.error('Erro ao buscar metadados:', error);
+        res.status(500).json({ message: 'Erro ao buscar metadados.' });
+    }
+});
 
-
-  
+// Rota para excluir metadados por ID (não implementada)
 app.delete('/metadata/:id', async (req, res) => {
     try {
         await prisma.metadata.delete({
@@ -54,8 +70,7 @@ app.delete('/metadata/:id', async (req, res) => {
     }
 });
 
-
-
+// Inicia o servidor na porta 3000
 app.listen(3000, () => {
     console.log('Listen on port 3000');
 });
