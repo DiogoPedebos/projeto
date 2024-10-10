@@ -74,7 +74,6 @@ function App() {
       <div>
         <div>
           <h1>Seu Guia Para o Tempo</h1>
-          <h1>em {weather.name}</h1>
         </div>
         
         <input ref={inputCity} onKeyDown={(event) => enterInInputCity(event)} className='inputCity' type="text" placeholder='Nome da Ciadade'/>
@@ -95,15 +94,3 @@ function App() {
 }
 
 export default App
-
-
-{/* <div>
-<h1>Cidade {weather.name}</h1>
-<p>Data: {weatherSpecific.metadata.modelrun_updatetime_utc}</p>
-<p>Temp Max{weatherSpecific.data_day.temperature_max}</p>
-<p>Temp Min{weatherSpecific.data_day.temperature_min}</p>
-<p>Situação tempo{weatherSpecific.data_day.pictocode}</p>
-<p>Velocidade vento{weatherSpecific.data_day.windspeed_mean}</p>
-<p>Direção Vento{weatherSpecific.data_day.winddirection}</p>
-<p>Probabilidade Chuva{weatherSpecific.data_day.precipitation_probability}</p>
-</div> */}
