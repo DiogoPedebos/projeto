@@ -1,0 +1,56 @@
+.container{
+    max-width: 1000px;
+    padding: 20px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #FFF
+}
+
+input{
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    width: 40%;
+    max-width: 300px;
+    outline: none;
+    margin-top: 30px;
+}
+
+.inputCity{
+    border-radius: 20px 0 0 20px;
+}
+
+button{
+    background-color: rgb(26, 128, 211);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: rgb(23, 118, 196);
+}
+
+.buttonCity {
+    border-radius: 0 20px 20px 0;
+    margin-left: 3px;
+}
+
+
+.inputLatitude{
+    border-radius: 20px 0 0 20px;
+}
+
+.inputLongitude{
+    border-radius: 0;
+    margin-left: 3px;
+}
+
+.btLocation {
+    border-radius: 0 20px 20px 0;
+    margin-left: 3px;
+}
