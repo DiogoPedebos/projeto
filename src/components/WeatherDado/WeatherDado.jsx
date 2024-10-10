@@ -158,7 +158,7 @@ function WeatherDado(props) {
             <p className='description'>{result.descricao}</p>
             <div className=''>
                 <p>Direção do Vento: {obterDirecaoCardeal(props.weatherSpecific.data_day.winddirection)}º</p>
-                <p>Velocidade do Vento: {Math.round(props.weatherSpecific.data_day.windspeed_mean)}</p>
+                <p>Velocidade do Vento: {Math.round(props.weatherSpecific.data_day.windspeed_mean)} km/h</p>
                 <p>Probabilidade de Chuva: {Math.round(props.weatherSpecific.data_day.precipitation_probability)}%</p>
             </div>
             <div className='details'>
