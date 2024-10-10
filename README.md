@@ -1,8 +1,26 @@
-# React + Vite
+Título do Projeto: EXERCÍCIO DE AVALIAÇÃO: DESENVOLVEDOR FULLSTACK
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Descrição: Desenvolver uma aplicação web que consome a API de clima da Meteoblue, grava os dados em um banco de dados e gera relatórios com as informações dos próximos dias. Opcionalmente, criar gráficos para visualização dos dados utilizando ApexCharts ou outra biblioteca de gráficos que preferir.
 
-Currently, two official plugins are available:
+Funcionalidades:
+- Requisição À Api De Clima.
+- Armazenamento No Banco De Dados
+- Inclui badges e links úteis.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Tecnologias Utilizadas:
+Backend:
+- Node.js (com Express)
+- API externa Meteoblue
+- 
+
+Como Usar:
+1. Clone o repositório.
+2. Instale as dependências.
+3. Execute o comando `npm run dev`.
+
+Modelagem de banco de dados utilizada:
+- projeto > prisma > schema.prisma
+
+Licença: MIT
+
+Contato: diogo.iffar@gmail.com
