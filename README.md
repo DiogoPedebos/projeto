@@ -11,7 +11,6 @@ Tecnologias Utilizadas:
 Backend:
 - Node.js (com Express)
 - API externa Meteoblue
-- 
 
 Como Usar:
 1. Clone o repositório.
