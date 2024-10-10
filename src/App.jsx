@@ -48,7 +48,7 @@ function App() {
 
       const dataSpecific = await axios.get(Ur2);
       setWeatherSpecific(dataSpecific.data); // Armazena dataSpecific.data
-      console.log(dataSpecific.data)
+      createMetadatas(dataSpecific.data)
       setDado(true)
     } catch (error) {
       console.error("Erro ao buscar dados da localização:", error);
@@ -89,6 +89,26 @@ async function createMetadatas(metadata){
   }
 }
 
+async function pesquisaMetadatas() { 
+  try {
+    const response = await apiDatabase.get('/metadata');
+    console.log(response)
+    if (response.status === 200) {
+      console.log('Metadados encontrados:', response.data); 
+      return response.data; // Retorna os dados da resposta
+    } else {
+      console.error('Erro ao buscar metadados:', response.status, response.statusText);
+      // Tratar o erro de acordo com a resposta da API
+    }
+  } catch (error) {
+    console.error('Erro ao buscar metadados:', error);
+    // Tratar o erro, por exemplo, logar ou exibir uma mensagem de erro
+  }
+}
+
+
+
+
   return (
 
 
@@ -111,6 +131,7 @@ async function createMetadatas(metadata){
 
       {dado &&  <WeatherDado weather={weather} weatherSpecific={weatherSpecific}/>}
 
+      <button onClick={pesquisaMetadatas} className="btLocation">Buscar dados banco</button>
     </div>
   )
 }
