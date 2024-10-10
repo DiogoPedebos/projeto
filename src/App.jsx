@@ -20,7 +20,7 @@ function App() {
       const dataCity = await axios.get(firstUrl);
       const { lat, lon } = dataCity.data.results[0]; // Extrai lat e lon aqui
       setWeather(dataCity.data.results[0]);
-
+      console.log(firstUrl)
       const Url1 = `https://my.meteoblue.com/packages/basic-day?apikey=n8dU3vSGkyNxma2L&lat=${lat}&lon=${lon}&asl=595&format=json&forecast_days=1`;
 
 
