@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Localidade {
+  id          Int     @id @default(autoincrement())
+  admin1      String? 
+  asl         Int?
+  country     String?
+  distance    Float?
+  featureClass String?
+  featureCode String?
+  iata        String?
+  icao        String?
+  iso2        String?
+  lat         Float?
+  lon         Float?
+  name        String?
+  population  Int?
+  postcodes   String[]
+  timezone    String?
+  url         String?
+}
+
+model Metadata {
+  id Int @id @default(autoincrement())
+  modelrun_updatetime_utc DateTime?
+  name String?
+  height Int?
+  timezone_abbrevation String?
+  latitude Float?
+  modelrun_utc DateTime?
+  longitude Float?
+  utc_timeoffset Float?
+  generation_time_ms Float?
+  unitsId Int?
+  dataDayId Int?
+}
+
+model Units {
+  id Int @id @default(autoincrement())
+  predictability String?
+  precipitation String?
+  windspeed String?
+  precipitation_probability String?
+  relativehumidity String?
+  time String?
+  temperature String?
+  pressure String?
+  winddirection String?
+}
+
+model DataDay {
+  id Int @id @default(autoincrement())
+  time String[]
+  temperature_instant Float[]
+  precipitation Float[]
+  predictability Int[]
+  temperature_max Float[]
+  sealevelpressure_mean Int[]
+  windspeed_mean Float[]
+  precipitation_hours Float[]
+  sealevelpressure_min Int[]
+  pictocode Int[]
+  snowfraction Float[]
+  humiditygreater90_hours Float[]
+  convective_precipitation Float[]
+  relativehumidity_max Int[]
+  temperature_min Float[]
+  winddirection Int[]
+  felttemperature_max Float[]
+  relativehumidity_min Int[]
+  felttemperature_mean Float[]
+  windspeed_min Float[]
+  felttemperature_min Float[]
+  precipitation_probability Int[]
+  uvindex Int[]
+  rainspot String[]
+  temperature_mean Float[]
+  sealevelpressure_max Int[]
+  relativehumidity_mean Int[]
+  predictability_class Float[]
+  windspeed_max Float[]
+}

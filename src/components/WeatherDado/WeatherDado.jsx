@@ -7,9 +7,6 @@ import ptBR from 'date-fns/locale/pt-BR'
 
 function WeatherDado(props) {
 
-    console.log(props.weather)
-    console.log(props.weatherSpecific)
-
 
     function obterValorPtPT(code) {
         var periodo = verificarPeriodo(props.weatherSpecific.metadata.modelrun_updatetime_utc);

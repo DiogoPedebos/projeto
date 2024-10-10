@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
 import './App.css'
-import WeatherDado from './components/WeatherDado/WeatherDado.jsx'
+import WeatherDado from './components/WeatherDado/WeatherDado'
+import apiDatabase from './services/apiDatabase'
 
 
 function App() {
@@ -20,12 +21,13 @@ function App() {
       const dataCity = await axios.get(firstUrl);
       const { lat, lon } = dataCity.data.results[0]; // Extrai lat e lon aqui
       setWeather(dataCity.data.results[0]);
-      console.log(firstUrl)
+      
       const Url1 = `https://my.meteoblue.com/packages/basic-day?apikey=n8dU3vSGkyNxma2L&lat=${lat}&lon=${lon}&asl=595&format=json&forecast_days=1`;
 
 
       const dataSpecific = await axios.get(Url1);
       setWeatherSpecific(dataSpecific.data); // Armazena dataSpecific.data  
+      createMetadatas(dataSpecific.data)
       setDado(true)
     } catch (error) {
       console.error("Erro ao buscar dados da cidade:", error);
@@ -46,6 +48,7 @@ function App() {
 
       const dataSpecific = await axios.get(Ur2);
       setWeatherSpecific(dataSpecific.data); // Armazena dataSpecific.data
+      console.log(dataSpecific.data)
       setDado(true)
     } catch (error) {
       console.error("Erro ao buscar dados da localização:", error);
@@ -66,6 +69,25 @@ function App() {
     }
   }
 
+// enviando dados API para databaseDados
+
+async function createMetadatas(metadata){
+  try {
+
+    const response = await apiDatabase.post('/metadata' , metadata);
+
+    // Verificar a resposta da API
+    if (response.status === 201) {
+      console.log('Metadados criados com sucesso!');
+    } else {
+      console.error('Erro ao criar metadados:', response.status, response.statusText);
+      // Tratar o erro de acordo com a resposta da API
+    }
+  } catch (error) {
+    console.error('Erro ao criar metadados:', error);
+    // Tratar o erro, por exemplo, logar ou exibir uma mensagem de erro
+  }
+}
 
   return (
 
